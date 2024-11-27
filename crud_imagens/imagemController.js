@@ -31,10 +31,11 @@ class ImagemController {
   }
 
   listarImagemPorId(req, res) {
-    this.db.query("SELECT * FROM imagens", (err, results) => {
+    const id = req.body
+    this.db.query("SELECT * FROM imagens WHERE id = ?", [id], (err, results) => {
       if (err) {
         console.error("Erro ao executar a query: " + err.stack);
-        res.status(500).send("Erro ao listar as imagens");
+        res.status(500).send("Erro ao listar a imagem ");
         return;
       }
       res.json(results);

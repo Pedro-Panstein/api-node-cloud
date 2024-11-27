@@ -5,6 +5,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
+//Configurações para fazer a conexão
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",

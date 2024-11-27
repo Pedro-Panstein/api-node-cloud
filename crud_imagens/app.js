@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const db = require("./db/Connection");
-const ImagemController = require("./controllers/ImagemController");
+const db = require("./db_connection");
+const ImagemController = require("./imagemController");
 
 const app = express();
 app.use(bodyParser.json());

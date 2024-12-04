@@ -13,9 +13,6 @@ function createSchema() {
     }
     console.log("Database created successfully");
   });
-  let dbConnect = connect();
-  
-  return dbConnect;
 }
 
 function connect() {
@@ -50,4 +47,4 @@ function createTable(db) {
   );
 }
 
-module.exports = createSchema;
+module.exports = { connect, createSchema };

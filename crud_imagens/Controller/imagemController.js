@@ -1,25 +1,42 @@
-const bodyParser = require("body-parser");
-const db = require("../Service/ConnectionService");
 const imagemRepository = require("../Repository/imagemRepository");
-const getApp = require("../app");
-const app = getApp();
-app.use(bodyParser.json());
 
-const repository = new imagemRepository(db);
+module.exports = (app) => {
+  const repository = imagemRepository;
 
-app.post("/imagem/adicionar", (req, res) =>
-  repository.adicionarImagem(req, res)
-);
+  app.post("/imagem/adicionar", (req, res) =>
+    repository
+      .adicionarImagem(
+        req.body.referencia,
+        req.body.data_criacao,
+        req.body.titulo
+      )
+      .then(() => res.status(201).send("Imagem adicionada com sucesso"))
+      .catch((err) => res.status(500).send(err.message))
+  );
 
-app.get("/imagem/listar", (req, res) => repository.listarImagens(req, res));
+  app.get("/imagem/listar", (req, res) =>
+    repository
+      .getAllImagens()
+      .then((imagens) => res.json(imagens))
+      .catch((err) => res.status(500).send(err.message))
+  );
 
-app.put("/imagem/atualizar/:id", (req, res) =>
-  repository.atualizarImagem(req, res)
-);
-app.delete("/imagem/deletar/:id", (req, res) =>
-  repository.deletarImagem(req, res)
-);
+  app.put("/imagem/atualizar/:id", (req, res) =>
+    repository
+      .atualizarImagem(
+        req.params.id,
+        req.body.referencia,
+        req.body.data_criacao,
+        req.body.titulo
+      )
+      .then(() => res.send("Imagem atualizada com sucesso"))
+      .catch((err) => res.status(500).send(err.message))
+  );
 
-app.listen(3005, () => {
-  console.log("Porta 3005 funcionando");
-});
+  app.delete("/imagem/deletar/:id", (req, res) =>
+    repository
+      .deletarImagem(req.params.id)
+      .then(() => res.send("Imagem deletada com sucesso"))
+      .catch((err) => res.status(500).send(err.message))
+  );
+};

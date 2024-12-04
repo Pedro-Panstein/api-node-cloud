@@ -1,20 +1,14 @@
-//const schema = require("../createTables");
-//schema.createSchema();
-//const db = require("../Repository/dbRepository");
-//schema.createTable(db);
-
-//const db = require("./Service/ConnectionService");
-//atualizar isto
-
 const express = require("express");
+const bodyParser = require("body-parser");
+const connectionService = require("./Service/ConnectionService");
+connectionService.createSchema();
+
+const imagemController = require("./Controller/imagemController");
 const app = express();
 
-function getApp() {
-  return app;
-}
+app.use(bodyParser.json());
+imagemController(app); // Passa o `app` para configurar as rotas
 
 app.listen(3005, () => {
   console.log("Porta 3005 funcionando");
 });
-
-module.exports = getApp;

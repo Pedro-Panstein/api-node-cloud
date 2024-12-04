@@ -5,9 +5,7 @@ function createSchema() {
     host: "localhost",
     user: "root",
     password: "",
-    //   database: "db_crudimagem",
   });
-
   db.query("CREATE DATABASE IF NOT EXISTS db_crudimagem", (err, result) => {
     if (err) {
       console.error("Error creating database: " + err.stack);
@@ -15,6 +13,28 @@ function createSchema() {
     }
     console.log("Database created successfully");
   });
+  let dbConnect = connect();
+  
+  return dbConnect;
+}
+
+function connect() {
+  const db = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "db_crudimagem",
+  });
+
+  db.connect((err) => {
+    if (err) {
+      console.error("Erro ao conectar ao MySQL: " + err.stack);
+      return;
+    }
+    console.log("Conectado ao MySQL com ID " + db.threadId);
+  });
+  createTable(db);
+  return db;
 }
 
 function createTable(db) {
@@ -30,4 +50,4 @@ function createTable(db) {
   );
 }
 
-module.exports = { createSchema, createTable };
+module.exports = createSchema;

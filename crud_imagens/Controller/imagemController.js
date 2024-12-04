@@ -1,10 +1,10 @@
-const schema = require("./createTables");
+const schema = require("../createTables");
 schema.createSchema();
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const db = require("./db_connection");
-const ImagemController = require("./imagemController");
+const db = require("../Repository/dbRepository");
+const ImagemController = require("../Service/imagemService");
 
 schema.createTable(db);
 const app = express();

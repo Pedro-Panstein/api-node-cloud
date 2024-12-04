@@ -4,10 +4,10 @@ class ImagemController {
   }
 
   adicionarImagem(req, res) {
-    const { id, referencia, data_criacao, titulo } = req.body;
+    const { referencia, data_criacao, titulo } = req.body;
     this.db.query(
-      "INSERT INTO imagens (id, referencia, data_criacao, titulo) VALUES (?, ?, ?, ?)",
-      [id, referencia, data_criacao, titulo],
+      "INSERT INTO imagens (referencia, data_criacao, titulo) VALUES (?, ?, ?, ?)",
+      [referencia, data_criacao, titulo],
       (err, result) => {
         if (err) {
           console.error("Erro ao executar a query: " + err.stack);
@@ -31,15 +31,19 @@ class ImagemController {
   }
 
   listarImagemPorId(req, res) {
-    const id = req.body
-    this.db.query("SELECT * FROM imagens WHERE id = ?", [id], (err, results) => {
-      if (err) {
-        console.error("Erro ao executar a query: " + err.stack);
-        res.status(500).send("Erro ao listar a imagem ");
-        return;
+    const id = req.body;
+    this.db.query(
+      "SELECT * FROM imagens WHERE id = ?",
+      [id],
+      (err, results) => {
+        if (err) {
+          console.error("Erro ao executar a query: " + err.stack);
+          res.status(500).send("Erro ao listar a imagem ");
+          return;
+        }
+        res.json(results);
       }
-      res.json(results);
-    });
+    );
   }
 
   atualizarImagem(req, res) {

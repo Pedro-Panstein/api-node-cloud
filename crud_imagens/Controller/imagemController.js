@@ -1,42 +1,63 @@
 const imagemRepository = require("../Repository/imagemRepository");
 
-module.exports = (app) => {
-  const repository = imagemRepository;
+const adicionarImagem = async (req, res) => {
+  try {
+    await imagemRepository.adicionarImagem(
+      req.body.referencia,
+      req.body.data_criacao,
+      req.body.titulo
+    );
+    res.status(201).send("Imagem adicionada com sucesso");
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
 
-  app.post("/imagem/adicionar", (req, res) =>
-    repository
-      .adicionarImagem(
-        req.body.referencia,
-        req.body.data_criacao,
-        req.body.titulo
-      )
-      .then(() => res.status(201).send("Imagem adicionada com sucesso"))
-      .catch((err) => res.status(500).send(err.message))
-  );
+const getAllImagens = async (req, res) => {
+  try {
+    const imagens = await imagemRepository.getAllImagens();
+    res.json(imagens);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
 
-  app.get("/imagem/listar", (req, res) =>
-    repository
-      .getAllImagens()
-      .then((imagens) => res.json(imagens))
-      .catch((err) => res.status(500).send(err.message))
-  );
+const getImageById = async (req, res) => {
+  try {
+    const imagem = await imagemRepository.getImagemById(req.params.id);
+    res.json(imagem);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
 
-  app.put("/imagem/atualizar/:id", (req, res) =>
-    repository
-      .atualizarImagem(
-        req.params.id,
-        req.body.referencia,
-        req.body.data_criacao,
-        req.body.titulo
-      )
-      .then(() => res.send("Imagem atualizada com sucesso"))
-      .catch((err) => res.status(500).send(err.message))
-  );
+const atualizarImagem = async (req, res) => {
+  try {
+    await imagemRepository.atualizarImagem(
+      req.params.id,
+      req.body.referencia,
+      req.body.data_criacao,
+      req.body.titulo
+    );
+    res.send("Imagem atualizada com sucesso");
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
 
-  app.delete("/imagem/deletar/:id", (req, res) =>
-    repository
-      .deletarImagem(req.params.id)
-      .then(() => res.send("Imagem deletada com sucesso"))
-      .catch((err) => res.status(500).send(err.message))
-  );
+const deletarImagem = async (req, res) => {
+  try {
+    await imagemRepository.deletarImagem(req.params.id);
+    res.send("Imagem deletada com sucesso");
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+};
+
+module.exports = {
+  adicionarImagem,
+  getAllImagens,
+  getImageById,
+  atualizarImagem,
+  deletarImagem,
 };

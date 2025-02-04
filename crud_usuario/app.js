@@ -1,17 +1,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const routes = require("./Routes/routes");
 const connectionService = require("./Service/ConnectionService");
-const routes = require("./routes/routes");
 connectionService.createSchema();
 
-// const imagemController = require("./Controller/imagemController");
 const app = express();
 
 app.use(bodyParser.json());
-// imagemController(app);
 
 app.use(routes);
 
-app.listen(3005, () => {
-  console.log("Porta 3005 funcionando");
+app.listen(3006, () => {
+  console.log("Porta 3006 funcionando");
 });

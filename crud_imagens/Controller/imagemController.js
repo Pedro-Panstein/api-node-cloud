@@ -1,8 +1,8 @@
-const imagemRepository = require("../Repository/imagemRepository");
+const imagemService = require("../Service/imagemService");
 
 const adicionarImagem = async (req, res) => {
   try {
-    await imagemRepository.adicionarImagem(
+    const imagem = await imagemService.adicionarImagem(
       req.body.referencia,
       req.body.data_criacao,
       req.body.titulo
@@ -15,16 +15,18 @@ const adicionarImagem = async (req, res) => {
 
 const getAllImagens = async (req, res) => {
   try {
-    const imagens = await imagemRepository.getAllImagens();
+    const imagens = await imagemService.getAllImagens();
     res.json(imagens);
   } catch (err) {
-    res.status(500).send(err.message);
+    res
+      .status(500)
+      .send("Ocorreu um erro ao buscar as imagens: " + err.message);
   }
 };
 
 const getImageById = async (req, res) => {
   try {
-    const imagem = await imagemRepository.getImagemById(req.params.id);
+    const imagem = await imagemService.getImagemById(req.params.id);
     res.json(imagem);
   } catch (err) {
     res.status(500).send(err.message);
@@ -33,7 +35,7 @@ const getImageById = async (req, res) => {
 
 const atualizarImagem = async (req, res) => {
   try {
-    await imagemRepository.atualizarImagem(
+    const imagem = await imagemService.atualizarImagem(
       req.params.id,
       req.body.referencia,
       req.body.data_criacao,
@@ -47,7 +49,7 @@ const atualizarImagem = async (req, res) => {
 
 const deletarImagem = async (req, res) => {
   try {
-    await imagemRepository.deletarImagem(req.params.id);
+    await imagemService.deletarImagem(req.params.id);
     res.send("Imagem deletada com sucesso");
   } catch (err) {
     res.status(500).send(err.message);

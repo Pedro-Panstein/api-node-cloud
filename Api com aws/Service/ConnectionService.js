@@ -35,13 +35,24 @@ function connect() {
 
 function createTable(db) {
   db.query(
-    `CREATE TABLE IF NOT EXISTS ${"A DEFINIR"} (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), email VARCHAR(255))`,
+    `CREATE TABLE IF NOT EXISTS tb_awsimagem (id INT AUTO_INCREMENT PRIMARY KEY, titulo VARCHAR(255), id_usuario INT, FOREIGN KEY (id_usuario) REFERENCES tb_awsusuarios(id))`,
     (err, result) => {
       if (err) {
         console.error("Erro ao criar a tabela: " + err);
         return;
       }
-      console.log("Tabela criada com sucesso");
+      console.log("Tabela criada imagem com sucesso");
+    }
+  );
+
+  db.query(
+    `CREATE TABLE IF NOT EXISTS tb_awsusuarios (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), email VARCHAR(255))`,
+    (err, result) => {
+      if (err) {
+        console.error("Erro ao criar a tabela: " + err);
+        return;
+      }
+      console.log("Tabela criada usuario com sucesso");
     }
   );
 }

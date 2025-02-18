@@ -32,7 +32,7 @@ class AwsService {
       }
     });
 
-    return awsRepository.adiconarImagem(titulo, id_usuario);
+    return awsRepository.adiconarImagem(titulo, ref, id_usuario);
   };
 
   static getAllImages = () => {

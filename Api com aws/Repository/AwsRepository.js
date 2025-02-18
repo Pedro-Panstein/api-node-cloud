@@ -1,11 +1,11 @@
 const connectionService = require("../Service/ConnectionService");
 const db = connectionService.connect();
 
-function adiconarImagem(titulo, id_usuario) {
+function adiconarImagem(titulo, referencia, id_usuario) {
   return new Promise((resolve, reject) => {
     db.query(
       "INSERT INTO tb_awsimagem (titulo, id_usuario) VALUES (?, ?)",
-      [titulo, id_usuario],
+      [titulo, referencia, id_usuario],
       (err, result) => {
         if (err) {
           reject(err);

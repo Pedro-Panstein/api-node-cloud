@@ -35,7 +35,7 @@ function connect() {
 
 function createTable(db) {
   db.query(
-    `CREATE TABLE IF NOT EXISTS tb_awsimagem (id INT AUTO_INCREMENT PRIMARY KEY, titulo VARCHAR(255), id_usuario INT, FOREIGN KEY (id_usuario) REFERENCES tb_awsusuarios(id))`,
+    `CREATE TABLE IF NOT EXISTS tb_awsimagem (id INT AUTO_INCREMENT PRIMARY KEY, titulo VARCHAR(255), referencia VARCHAR(255), id_usuario INT, FOREIGN KEY (id_usuario) REFERENCES tb_awsusuarios(id))`,
     (err, result) => {
       if (err) {
         console.error("Erro ao criar a tabela: " + err);

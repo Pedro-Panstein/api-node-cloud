@@ -9,5 +9,5 @@ app.use(bodyParser.json());
 app.use(routes);
 
 app.listen(3010, () => {
-  console.log("Porta 3008 funcionando");
+  console.log("Porta 3010 funcionando");
 });

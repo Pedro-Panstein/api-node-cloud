@@ -12,5 +12,10 @@ router.get("/user/listarTodos", userController.getAllUsers);
 router.post("/image/adicionar", awsController.addImage);
 router.get("/image/listarTodas", awsController.getAllImages);
 router.get("/image/listarImagem", awsController.downloadFile);
+router.get("/image/listarImagemPorId/:id", awsController.getImageById);
+router.get(
+  "/image/listarImagemPorReferencia/:referencia",
+  awsController.getImageByReferencia
+);
 
 module.exports = router;

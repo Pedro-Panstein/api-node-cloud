@@ -52,6 +52,8 @@ class AwsService {
     file.on("close", () => {
       console.log("Arquivo baixado com sucesso: ", `./assets/${downloadPath}`);
     });
+
+    return awsRepository.getImageByReferencia(keyName);
   };
 
   static getImageById = (id) => {

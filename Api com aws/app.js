@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const routes = require("./Routes/Routes");
 const connectionService = require("./Service/ConnectionService");
+
 connectionService.createSchema();
 
 const app = express();

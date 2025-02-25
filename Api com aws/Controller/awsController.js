@@ -24,14 +24,20 @@ const getAllImages = async (req, res) => {
 
 const downloadFile = async (req, res) => {
   try {
-    let imagem = await awsService.getImageByReferencia(req.body.keyName);
-    const image = await awsService.downloadFile(
-      req.body.keyName,
-      imagem[0].titulo
-    );
-    res.json(image);
+    const result = await awsService.getImageByReferencia(req.body.keyName);
+
+    if (result.length > 0 && result[0].image) {
+      const image = result[0].image;
+      const novaImagem = await awsService.downloadFile(
+        req.body.keyName,
+        image.titulo
+      );
+      res.json(novaImagem);
+    } else {
+      res.status(400).send("Esta imagem não pertence ao seu banco de dados");
+    }
   } catch (err) {
-    res.status(500).send(err.message);
+    res.status(400).send(err.message);
   }
 };
 

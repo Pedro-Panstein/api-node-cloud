@@ -1,6 +1,7 @@
 const connectionService = require("../Service/ConnectionService");
 const db = connectionService.connect();
 const awsModel = require("../Model/AwsModel");
+const UsuarioModel = require("../Model/UsuarioModel");
 
 function adiconarImagem(titulo, referencia, id_usuario) {
   return new Promise((resolve, reject) => {
@@ -35,13 +36,17 @@ function getImageById(id) {
 async function getImageByReferencia(referencia) {
   return new Promise((resolve, reject) => {
     db.query(
-      "SELECT * FROM tb_awsimagem WHERE referencia = ?",
+      "SELECT i.*, u.* FROM tb_awsimagem i INNER JOIN tb_awsusuarios u ON i.id_usuario = u.id WHERE i.referencia = ?",
       [referencia],
       (err, rows) => {
         if (err) {
           reject(err);
         } else {
-          const images = rows.map((row) => AwsModel.fromDatabaseRow(row));
+          const images = rows.map((row) => {
+            const image = AwsModel.fromDatabaseRow(row);
+            const user = UsuarioModel.fromDatabaseRow(row);
+            return { image, user };
+          });
           resolve(images);
         }
       }

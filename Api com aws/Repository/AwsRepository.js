@@ -1,5 +1,6 @@
 const connectionService = require("../Service/ConnectionService");
 const db = connectionService.connect();
+const awsModel = require("../Model/AwsModel");
 
 function adiconarImagem(titulo, referencia, id_usuario) {
   return new Promise((resolve, reject) => {
@@ -10,7 +11,9 @@ function adiconarImagem(titulo, referencia, id_usuario) {
         if (err) {
           reject(err);
         } else {
-          resolve(result);
+          resolve(
+            new AwsModel(result.insertId, titulo, referencia, id_usuario)
+          );
         }
       }
     );
@@ -23,7 +26,7 @@ function getImageById(id) {
       if (err) {
         reject(err);
       } else {
-        resolve(rows);
+        resolve(rows.map((row) => AwsModel.fromDatabaseRow(row)));
       }
     });
   });
@@ -38,12 +41,15 @@ async function getImageByReferencia(referencia) {
         if (err) {
           reject(err);
         } else {
-          resolve(rows);
+          const images = rows.map((row) => AwsModel.fromDatabaseRow(row));
+          resolve(images);
         }
       }
     );
   });
 }
+
+const AwsModel = require("../Model/AwsModel");
 
 function getAllImages() {
   return new Promise((resolve, reject) => {
@@ -51,7 +57,8 @@ function getAllImages() {
       if (err) {
         reject(err);
       } else {
-        resolve(result);
+        const images = result.map((row) => AwsModel.fromDatabaseRow(row));
+        resolve(images);
       }
     });
   });
@@ -60,7 +67,6 @@ function getAllImages() {
 module.exports = {
   adiconarImagem,
   getAllImages,
-
   getImageById,
   getImageByReferencia,
 };

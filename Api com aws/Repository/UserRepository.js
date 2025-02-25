@@ -1,5 +1,6 @@
 const connectionService = require("../Service/ConnectionService");
 const db = connectionService.connect();
+const usuarioModel = require("../Model/UsuarioModel");
 
 function adicionarUsuario(name, email) {
   return new Promise((resolve, reject) => {
@@ -10,7 +11,7 @@ function adicionarUsuario(name, email) {
         if (err) {
           reject(err);
         } else {
-          resolve(result);
+          resolve(new usuarioModel(result.insertId, name, email));
         }
       }
     );
@@ -23,7 +24,7 @@ function getAllUsers() {
       if (err) {
         reject(err);
       } else {
-        resolve(result);
+        resolve(result.map((row) => usuarioModel.fromDatabaseRow(row)));
       }
     });
   });

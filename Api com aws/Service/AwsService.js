@@ -3,18 +3,18 @@ const AWS = require("aws-sdk");
 
 AWS.config.update({
   region: "us-west-1",
-  accessKeyId: "ACCESS_KEY",
-  secretAccessKey: "SECRET_KEY",
+  accessKeyId: "key",
+  secretAccessKey: "key",
 });
 
 const s3 = new AWS.S3();
 const fs = require("fs");
 
 class AwsService {
-  static addImage = async (titulo, imageName, uploadPath, id_usuario) => {
+  static addImage = async (titulo, uploadPath, id_usuario) => {
     const uuid = crypto.randomUUID();
     let ref = uuid;
-    let finalUploadPath = `${uploadPath}${imageName}`;
+    let finalUploadPath = `${uploadPath}`;
 
     try {
       const fileContent = fs.readFileSync(finalUploadPath);

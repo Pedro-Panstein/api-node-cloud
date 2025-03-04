@@ -4,7 +4,6 @@ const addImage = async (req, res) => {
   try {
     const image = await awsService.addImage(
       req.body.titulo,
-      req.body.imageName,
       req.body.uploadPath,
       req.body.id_usuario
     );

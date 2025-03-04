@@ -3,8 +3,8 @@ const AWS = require("aws-sdk");
 
 AWS.config.update({
   region: "us-west-1",
-  accessKeyId: "ACCESS_KEY",
-  secretAccessKey: "ACCESS_KEY",
+  accessKeyId: "ACCES_KEY",
+  secretAccessKey: "SECRET_KEY",
 });
 
 const s3 = new AWS.S3();
@@ -14,7 +14,7 @@ class AwsService {
   static addImage = async (titulo, imageName, id_usuario) => {
     const uuid = crypto.randomUUID();
     let ref = uuid;
-    let uploadPath = `./assets/${imageName}`;
+    let uploadPath = `./assets/upload/${imageName}`;
 
     try {
       const fileContent = fs.readFileSync(uploadPath);
@@ -36,7 +36,7 @@ class AwsService {
   };
 
   static getAllImages = () => {
-    return awsRepository.getAllImages();
+    return awsRepository.getAllImages(); //não está sendo utilizado
   };
 
   static downloadFile = (keyName, downloadPath) => {
@@ -45,7 +45,7 @@ class AwsService {
       Key: keyName,
     };
 
-    const file = fs.createWriteStream(`./assets/${downloadPath}.png`);
+    const file = fs.createWriteStream(`./assets/download/${downloadPath}.png`);
 
     s3.getObject(params).createReadStream().pipe(file);
 

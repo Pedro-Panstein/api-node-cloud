@@ -1,6 +1,6 @@
 const connectionService = require("../Service/ConnectionService");
 const db = connectionService.connect();
-const awsModel = require("../Model/AwsModel");
+const AwsModel = require("../Model/AwsModel");
 const UsuarioModel = require("../Model/UsuarioModel");
 
 function adiconarImagem(titulo, referencia, id_usuario) {
@@ -53,8 +53,6 @@ async function getImageByReferencia(referencia) {
     );
   });
 }
-
-const AwsModel = require("../Model/AwsModel");
 
 function getAllImages() {
   return new Promise((resolve, reject) => {

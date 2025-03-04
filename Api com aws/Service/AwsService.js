@@ -3,21 +3,21 @@ const AWS = require("aws-sdk");
 
 AWS.config.update({
   region: "us-west-1",
-  accessKeyId: "ACCES_KEY",
-  secretAccessKey: "SECRET_KEY",
+  accessKeyId: "key",
+  secretAccessKey: "key",
 });
 
 const s3 = new AWS.S3();
 const fs = require("fs");
 
 class AwsService {
-  static addImage = async (titulo, imageName, id_usuario) => {
+  static addImage = async (titulo, uploadPath, id_usuario) => {
     const uuid = crypto.randomUUID();
     let ref = uuid;
-    let uploadPath = `./assets/upload/${imageName}`;
+    let finalUploadPath = `${uploadPath}`;
 
     try {
-      const fileContent = fs.readFileSync(uploadPath);
+      const fileContent = fs.readFileSync(finalUploadPath);
 
       const params = {
         Bucket: "bucketmi74",
@@ -36,21 +36,24 @@ class AwsService {
   };
 
   static getAllImages = () => {
-    return awsRepository.getAllImages(); //não está sendo utilizado
+    return awsRepository.getAllImages(); //por enquando não está integrado a nada
   };
 
-  static downloadFile = (keyName, downloadPath) => {
+  static downloadFile = (keyName, downloadPath, imageTitle) => {
     const params = {
       Bucket: "bucketmi74",
       Key: keyName,
     };
 
-    const file = fs.createWriteStream(`./assets/download/${downloadPath}.png`);
+    const file = fs.createWriteStream(`${downloadPath}${imageTitle}.png`);
 
     s3.getObject(params).createReadStream().pipe(file);
 
     file.on("close", () => {
-      console.log("Arquivo baixado com sucesso: ", `./assets/${downloadPath}`);
+      console.log(
+        "Arquivo baixado com sucesso: ",
+        `${downloadPath}${imageTitle}.png`
+      );
     });
 
     return awsRepository.getImageByReferencia(keyName);

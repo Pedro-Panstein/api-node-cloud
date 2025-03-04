@@ -5,6 +5,7 @@ const addImage = async (req, res) => {
     const image = await awsService.addImage(
       req.body.titulo,
       req.body.imageName,
+      req.body.uploadPath,
       req.body.id_usuario
     );
     res.json(image);
@@ -30,6 +31,7 @@ const downloadFile = async (req, res) => {
       const image = result[0].image;
       const novaImagem = await awsService.downloadFile(
         req.body.keyName,
+        req.body.downloadPath,
         image.titulo
       );
       res.json(novaImagem);

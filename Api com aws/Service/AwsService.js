@@ -3,8 +3,8 @@ const AWS = require("aws-sdk");
 
 AWS.config.update({
   region: "us-west-1",
-  accessKeyId: "key",
-  secretAccessKey: "key",
+  accessKeyId: "accesKey",
+  secretAccessKey: "secretKey",
 });
 
 const s3 = new AWS.S3();
@@ -39,13 +39,13 @@ class AwsService {
     return awsRepository.getAllImages(); //por enquando não está integrado a nada
   };
 
-  static downloadFile = (keyName, downloadPath, imageTitle) => {
+  static downloadFile = (keyName, imageTitle) => {
     const params = {
       Bucket: "bucketmi74",
       Key: keyName,
     };
 
-    const file = fs.createWriteStream(`${downloadPath}${imageTitle}.png`);
+    const file = fs.createWriteStream(`./assets/download/${imageTitle}.png`);
 
     s3.getObject(params).createReadStream().pipe(file);
 

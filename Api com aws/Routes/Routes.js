@@ -1,8 +1,10 @@
 const express = require("express");
+const multer = require("multer");
 const awsController = require("../Controller/awsController");
 const userController = require("../Controller/UsuarioController");
 
 const router = express.Router();
+const upload = multer();
 
 //Users
 router.post("/user/adicionar", userController.adicionarUsuario);

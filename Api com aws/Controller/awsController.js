@@ -30,7 +30,6 @@ const downloadFile = async (req, res) => {
       const image = result[0].image;
       const novaImagem = await awsService.downloadFile(
         req.body.keyName,
-        req.body.downloadPath,
         image.titulo
       );
       res.json(novaImagem);
